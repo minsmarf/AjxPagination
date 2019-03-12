@@ -1,0 +1,100 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <title>Ajax Pagination</title>
+</head>
+<style>
+    .form-element {
+        display: inline-block;
+        padding-top: 30px;
+        padding-right: 20px;
+    }
+</style>
+<body>
+    <div class="jumbotron">
+      <h1 class="display-3 text-center">User Search</h1>
+      <p class="lead text-center">Ajax Pagination</p>
+      <hr class="my-2">
+
+      <div class="topbox text-center">
+        <form id="myForm" method="POST" action='/users/api'>
+          <div class="form-element">
+            <label for="date_from">Name:</label>
+            <input type="text" name="starts_with" id="starts_with">
+          </div>
+
+          <div class="form-element">
+              <label for="date_to">Date From:</label>
+              <input type="text" name="date_from" id="date_from">
+          </div>
+
+          <div class="form-element">
+                <label for="date_from">Date to:</label>
+                <input type="text" name="date_to" id="date_to">
+           </div>
+
+           <input type="hidden" id='page_number' name='page_number'>
+            
+
+        </form>
+
+      </div>
+    </div>
+    <div id='placeholder'></div>
+
+    <script>
+
+      // Function used to process the form
+      function submitAjaxForm(){
+        console.log("Form Info",$('#myForm').serialize());
+        $.ajax({
+          method: "POST",
+          url: $('#myForm').attr('action'),
+          data: $('#myForm').serialize(),
+          success: function(response) {
+            console.log('received response: ', response);
+            $('#placeholder').html(response)
+          }
+        })
+      }
+
+      // Automatically loads the whole DB without any entries
+      submitAjaxForm();
+
+      // Listens for the keyup for name
+      $('input[name=starts_with').keyup(function(){
+        submitAjaxForm();
+      });
+
+      // Listens for the keyup for date_from
+      $('input[name=date_from]').keyup(function(){
+        submitAjaxForm();
+      });
+
+      // Listens for the keyup for the date_to
+      $('input[name=date_to]').keyup(function(){
+        submitAjaxForm();
+      });
+
+
+      // Document.on listens for "click" all the time vs Document.ready is only once the page renders
+      $(document).on("click", "#numberID", function(){
+        $('input[name=page_number]').val($(this).attr('data-value'));
+        submitAjaxForm();
+        // Return false is so it doesn't route to that page since it's we are using a href
+        return false
+      });
+
+
+
+    </script>
+
+   
+
+</body>
+</html>

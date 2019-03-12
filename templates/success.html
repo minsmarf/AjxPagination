@@ -1,0 +1,32 @@
+﻿
+{% if pages %}
+
+    {% for index in range(pages) %}
+        <a href="#" id='numberID' data-value='{{index}}'>{{ index + 1}}|</a>
+    {% endfor%}
+{% endif %}
+<table  style="width:80%;text-align:center">
+
+    <thead>
+        <tr style="background-color:skyblue;">
+            <th>ID</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Created at</th>
+            <th>Email</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for user in users %}
+        <tr>
+            <td>{{ user.id}}</td>
+            <td>{{ user.first_name}}</td>
+            <td>{{ user.last_name}}</td>
+            <td>{{ user.created_at}}</td>
+            <td>{{ user.email}}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+    
+    
+</table>
